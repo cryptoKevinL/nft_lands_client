@@ -4,11 +4,11 @@ import {ethers} from "ethers";
 import { v4 as uuidv4 } from 'uuid';
 import { withIronSession } from 'next-iron-session';
 const abi = require("../../NFT_Lands.json").abi;
-const contractAddress = "0x5F6CEDdCF793524D6B41Dc2FFb52F08615eb8D9c";
+const contractAddress = "0xBE1df589c84008ec2bf828Fc8F2a3116Aee79D8f";
 const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const urlV2API = `https://managed.mypinata.cloud/api/v1`;
 const API_KEY = process.env.PINATA_V2_API_KEY;
-const CID = "bafybeiebosewgz4rqevz6azv3zig3p56vdvz54tautcwu5yur2ksnrmtla";
+const CID = "bafybeieurcyxmx5giqxk4nyg4cx6iztkbu7wp4lfgjuqwggsmrkwnglfdu";
 const GATEWAY_URL = "nft_lands.mypinata.cloud";
 
 function withSession(handler) {

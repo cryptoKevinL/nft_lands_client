@@ -22,6 +22,7 @@ export default function Home() {
     const messageToSign = await axios.get("/api/verify");
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
     const account = accounts[0];
+    console.log(account);
     const signedData = await ethereum.request({
       method: "personal_sign",
       params: [JSON.stringify(messageToSign.data), account, messageToSign.data.id],
@@ -32,6 +33,7 @@ export default function Home() {
         signature: signedData
       });
       const url = res.data;
+      console.log(url);
       setIsPFPinata(true);
       setSecretUrl(url);
     } catch (error) {
@@ -59,7 +61,7 @@ export default function Home() {
           <div>
             <h4>You are not one of us</h4>
             <img
-              src="URL to a funny Gif (or whatever you want)"
+              src="https://media.giphy.com/media/nZJYTigoPVyefVSL1k/giphy.gif"
               alt="Not one of us"
             />
           </div>
