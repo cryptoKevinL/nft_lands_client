@@ -9,7 +9,7 @@ const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const urlV2API = `https://managed.mypinata.cloud/api/v1`;
 const API_KEY = process.env.PINATA_V2_API_KEY;
 const CID = "bafybeieurcyxmx5giqxk4nyg4cx6iztkbu7wp4lfgjuqwggsmrkwnglfdu";
-const GATEWAY_URL = "nft_lands.mypinata.cloud";
+const GATEWAY_URL = "https://nft_lands.mypinata.cloud";
 
 function withSession(handler) {
   return withIronSession(handler, {
@@ -49,7 +49,7 @@ export default withSession(async (req, res) => {
           const { items } = data;
           const item = items.find(i => i.cid === CID);
           const body = {
-            timeoutInSeconds: 3600, 
+            timeoutSeconds: 3600, 
             contentIds: [item.id] 
           }
           const token = await axios.post(`${urlV2API}/auth/content/jwt`, body, config);
