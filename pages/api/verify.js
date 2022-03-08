@@ -8,7 +8,8 @@ const contractAddress = "0xBE1df589c84008ec2bf828Fc8F2a3116Aee79D8f";
 const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const urlV2API = `https://managed.mypinata.cloud/api/v1`;
 const API_KEY = process.env.PINATA_V2_API_KEY;
-const CID = "bafybeieurcyxmx5giqxk4nyg4cx6iztkbu7wp4lfgjuqwggsmrkwnglfdu";
+//const CID = "bafybeieurcyxmx5giqxk4nyg4cx6iztkbu7wp4lfgjuqwggsmrkwnglfdu"; //top level folder in Pinata - Submarined
+const CID = "bafybeigsh3r3hdjflwe4tzwsz4pggmnd6ogrx65vlwqeyrwnmk2ykaqyr4";
 const GATEWAY_URL = "https://nft_lands.mypinata.cloud";
 
 function withSession(handler) {
@@ -42,18 +43,37 @@ export default withSession(async (req, res) => {
               'Content-Type': 'application/json'
             }
           }
+          const owner = await contract.ownerOf(1);
+          console.log({owner});
+
           //  Generate Access Token
           const content = await axios.get(`${urlV2API}/content`, config)
+          //console.log(content);
           
           const { data } = content;
           const { items } = data;
           const item = items.find(i => i.cid === CID);
+          //console.log(item);
+          const folderID = item.id;
+          let idForDisplay = "";;
+          if(folderID != null) {
+             const contentFolderItems = await axios.get(`${urlV2API}/content/${folderID}/list`, config);
+             //console.log(contentFolderItems);
+             const { data } = contentFolderItems;
+             const { items } = data;
+             //console.log(items);
+             //originalname: 'images/SampleTreasureMap3.png',
+             idForDisplay = items.find(i => i.originalname === "images/SampleTreasureMap1.png");
+             //console.log(idForDisplay);
+          }
           const body = {
             timeoutSeconds: 3600, 
-            contentIds: [item.id] 
+            contentIds: [idForDisplay.id] 
           }
+          //console.log(body);
           const token = await axios.post(`${urlV2API}/auth/content/jwt`, body, config);
-          return res.send(`${GATEWAY_URL}/ipfs/${CID}?accessToken=${token.data}`);
+	  //console.log(token);
+          return res.send(`${GATEWAY_URL}/ipfs/${CID}/SampleTreasureMap1.png?accessToken=${token.data}`);
         } else {
           return res.status(401).send("You aren't a PFPinata");
         }
